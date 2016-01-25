@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<android.support.design.widget.CoordinatorLayout
+    android:id="@+id/coordinator"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context="com.crashapps.soundservice.MainActivity">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:orientation="vertical"
+            android:id="@+id/buttonsContainer"
+            >
+
+            <TextView
+                android:id="@+id/bt_startService"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Start service"
+                android:textColor="@android:color/white"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"
+
+                android:gravity="center"
+                android:background="@color/colorPrimaryDark"
+                />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="@color/colorPrimary"
+                />
+
+            <TextView
+                android:id="@+id/bt_startDelayed"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Start service delayed"
+                android:textColor="@android:color/white"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"
+                android:gravity="center"
+                android:background="@color/colorPrimaryDark"
+                />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="@color/colorPrimary"
+                />
+
+            <TextView
+                android:id="@+id/bt_stopService"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Stop service"
+                android:textColor="@android:color/white"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"
+                android:gravity="center"
+                android:background="@color/colorPrimaryDark"
+                />
+
+        </LinearLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentTop="true"
+            android:layout_above="@+id/buttonsContainer"
+            >
+
+            <TextView
+                android:id="@+id/service_status"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="21sp"
+                android:text="Running"
+                android:gravity="center"
+                />
+
+            <ImageView
+                android:id="@+id/sound"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:src="@mipmap/ic_launcher"
+                android:visibility="invisible"
+                />
+
+        </RelativeLayout>
+
+    </RelativeLayout>
+</android.support.design.widget.CoordinatorLayout>
