@@ -2,6 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.crashapps.soundservice">
 
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -17,6 +18,7 @@
         </activity>
 
         <service android:enabled="true" android:name="com.crashapps.soundservice.SoundService"></service>
+        <receiver android:name="com.crashapps.soundservice.SoundService$ScheduleReceiver" />
 
     </application>
 

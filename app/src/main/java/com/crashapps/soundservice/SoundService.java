@@ -1,6 +1,10 @@
 package com.crashapps.soundservice;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.app.Service;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Handler;
 import android.os.IBinder;
@@ -49,9 +53,20 @@ public class SoundService extends Service {
         Log.d(TAG, "OnStartCommand");
 
         spManager.init(this);
-        long delay = intent.getLongExtra("delay", 0);
-        postSoundDelayed(delay);
-        sendBroadcast(new Intent(SOUND_SERVICE_READY));
+        long schedule = intent.getLongExtra("schedule", 0);
+        if(schedule == 0) {
+            postSoundDelayed(0);
+            sendBroadcast(new Intent(SOUND_SERVICE_READY));
+        }else{
+            intent.removeExtra("schedule");
+            Log.e(TAG, "Scheduled soundservice");
+            Intent si = new Intent(this, ScheduleReceiver.class);
+            si.addFlags(Intent.FLAG_INCLUDE_STOPPED_PACKAGES);
+            AlarmManager alarm = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+            PendingIntent pintent = PendingIntent.getService(this, 0, intent, 0);
+            alarm.set(AlarmManager.RTC_WAKEUP, schedule, pintent);
+            this.stopSelf();
+        }
 
         return super.onStartCommand(intent, flags, startId);
     }
@@ -91,10 +106,19 @@ public class SoundService extends Service {
         listener = l;
     }
 
-    protected interface SoundServiceListener{
+    public interface SoundServiceListener{
         void onPlaySound();
         void onServiceDestroyed();
         void nextSound(long delay);
     }
+
+    public class ScheduleReceiver extends BroadcastReceiver {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            context.startService(new Intent(context, SoundService.class));
+        }
+    }
+
 
 }

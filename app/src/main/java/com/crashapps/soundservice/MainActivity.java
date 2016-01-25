@@ -201,7 +201,11 @@ public class MainActivity extends AppCompatActivity implements SoundService.Soun
 
         multiPickerTime.setCurrentHour(mHour);
         multiPickerTime.setCurrentMinute(mMinute);
-        multiPickerDate.setMinDate(System.currentTimeMillis() + 10000);
+        try {
+            multiPickerDate.setMinDate(System.currentTimeMillis() + 10000);
+        }catch(Exception e){
+            e.printStackTrace();
+        }
 
         DialogInterface.OnClickListener dialogButtonListener = new DialogInterface.OnClickListener() {
             @Override
@@ -218,13 +222,13 @@ public class MainActivity extends AppCompatActivity implements SoundService.Soun
                             stopService(new Intent(MainActivity.this, SoundService.class));
                         }
                         Intent i =new Intent(MainActivity.this, SoundService.class);
-                        long delayMillis = calculateTime(multiPickerDate, multiPickerTime);
-                        if(delayMillis < 1000){
+                        long scheduledMillis = calculateTime(multiPickerDate, multiPickerTime);
+                        if(scheduledMillis - System.currentTimeMillis() < 1000){
                             Snackbar.make(coordinator, "This app cannot travel back in time...", Snackbar.LENGTH_SHORT).show();
                             break;
                         }
-                        Snackbar.make(coordinator, "Starting service in "+delayMillis/1000+" seconds...", Snackbar.LENGTH_SHORT).show();
-                        i.putExtra("delay", delayMillis);
+                        Snackbar.make(coordinator, "Starting service at "+scheduledMillis, Snackbar.LENGTH_SHORT).show();
+                        i.putExtra("schedule", scheduledMillis);
                         startService(i);
                         break;
                     }
@@ -248,8 +252,7 @@ public class MainActivity extends AppCompatActivity implements SoundService.Soun
         Calendar calendar = Calendar.getInstance();
         calendar.set(d.getYear(), d.getMonth(), d.getDayOfMonth(),
                 t.getCurrentHour(), t.getCurrentMinute(), 0);
-        long startTime = calendar.getTimeInMillis();
-        return startTime - System.currentTimeMillis();
+        return calendar.getTimeInMillis();
     }
 
     //BroadcastReceiver
